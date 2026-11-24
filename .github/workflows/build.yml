@@ -18,20 +18,18 @@ jobs:
         run: |
           SDK_ROOT="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
           SDKMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
-          if [ ! -x "$SDKMANAGER" ]; then
-            SDKMANAGER=$(find "$SDK_ROOT/cmdline-tools" -name sdkmanager -type f 2>/dev/null | head -1)
-          fi
-          echo "Using sdkmanager: $SDKMANAGER"
+          [ -x "$SDKMANAGER" ] || SDKMANAGER=$(find "$SDK_ROOT/cmdline-tools" -name sdkmanager -type f | head -1)
           yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
 
-      - name: Build debug APK
+      - name: Install Gradle 8.7
         run: |
-          chmod +x gradlew || true
-          if [ -f gradlew ]; then
-            ./gradlew assembleDebug --stacktrace
-          else
-            gradle assembleDebug --stacktrace
-          fi
+          curl -sSL https://services.gradle.org/distributions/gradle-8.7-bin.zip -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /opt
+          echo "/opt/gradle-8.7/bin" >> "$GITHUB_PATH"
+          gradle --version
+
+      - name: Build debug APK
+        run: gradle assembleDebug --stacktrace --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:
