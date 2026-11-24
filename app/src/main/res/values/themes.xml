@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.ZestyAes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#FF6B35</item>
+        <item name="colorPrimaryVariant">#E85A2A</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">#238636</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:statusBarColor">#0B0F14</item>
+        <item name="android:windowBackground">#0B0F14</item>
+        <item name="android:navigationBarColor">#0B0F14</item>
+    </style>
+</resources>
